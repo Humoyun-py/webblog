@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .create-blog-container {
+        margin-top: 40px;
+        margin-bottom: 60px;
+    }
+
+    .create-blog-card {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .create-blog-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 15px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 200px;
+        line-height: 1.6;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 14px 40px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-size: 16px;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-cancel {
+        background: #e0e0e0;
+        color: #333;
+        padding: 14px 40px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-cancel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        color: #333;
+        text-decoration: none;
+    }
+
+    .error-text {
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .help-text {
+        color: #999;
+        font-size: 13px;
+        margin-top: 5px;
+        font-style: italic;
+    }
+</style>
+
+<div class="create-blog-container container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="create-blog-card">
+                <div class="create-blog-title">
+                    <i class="fa fa-plus-circle"></i> Yangi Blog Yaratish
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="{{ form.title.id_for_label }}">
+                            <i class="fa fa-heading"></i> Blog Sarlavhasi
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <span class="error-text">{{ form.title.errors }}</span>
+                        {% endif %}
+                        <small class="help-text">Blog uchun to'g'ri va ifodalovchi sarlavha kiriting</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.content.id_for_label }}">
+                            <i class="fa fa-file-text-o"></i> Blog Mazmuni
+                        </label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                            <span class="error-text">{{ form.content.errors }}</span>
+                        {% endif %}
+                        <small class="help-text">Blog haqida batafsil ma'lumot kiriting</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.category.id_for_label }}">
+                            <i class="fa fa-folder-open-o"></i> Kategoriya
+                        </label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <span class="error-text">{{ form.category.errors }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.img_url.id_for_label }}">
+                            <i class="fa fa-image"></i> Rasim URL
+                        </label>
+                        {{ form.img_url }}
+                        {% if form.img_url.errors %}
+                            <span class="error-text">{{ form.img_url.errors }}</span>
+                        {% endif %}
+                        <small class="help-text">Blog qolip uchun rasimning to'liq URL manzilini kiriting (masalan: https://example.com/image.jpg)</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-submit">
+                            <i class="fa fa-check-circle"></i> Yaratish
+                        </button>
+                        <a href="{% url 'profile' %}" class="btn-cancel">
+                            <i class="fa fa-times-circle"></i> Bekor Qilish
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

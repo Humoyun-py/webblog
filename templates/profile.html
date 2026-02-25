@@ -1,0 +1,312 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block content %}
+
+<style>
+    .profile-container {
+        margin-top: 40px;
+        margin-bottom: 60px;
+    }
+
+    .profile-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 40px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 40px;
+    }
+
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+    }
+
+    .profile-username {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .profile-bio {
+        font-size: 16px;
+        opacity: 0.95;
+        margin-bottom: 30px;
+        font-style: italic;
+    }
+
+    .profile-form-section {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
+    }
+
+    .profile-form-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-size: 16px;
+    }
+
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-create-blog {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 14px 35px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-size: 16px;
+        display: inline-block;
+        margin-bottom: 30px;
+    }
+
+    .btn-create-blog:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .blogs-section {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .blogs-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+    }
+
+    .blog-card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 5px solid #667eea;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .blog-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .blog-meta {
+        font-size: 13px;
+        color: #999;
+        margin-bottom: 10px;
+    }
+
+    .blog-content {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .blog-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .blog-category {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .btn-read-more {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+    }
+
+    .btn-read-more:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+
+    .no-blogs {
+        text-align: center;
+        padding: 50px 20px;
+        color: #999;
+    }
+
+    .no-blogs-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    .no-blogs-text {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="profile-container container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- Profile Card -->
+            <div class="profile-card text-center">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="Avatar" class="profile-avatar">
+                {% else %}
+                    <img src="{% static 'profile_avatars/rasm1.png' %}" alt="Default" class="profile-avatar">
+                {% endif %}
+                <div class="profile-username">{{ user.username }}</div>
+                <div class="profile-bio">{{ profile.bio|default:"Hali bio qo'shilmagan" }}</div>
+            </div>
+
+            <!-- Create Blog Button -->
+            <div class="text-center">
+                <a href="{% url 'create_blog' %}" class="btn-create-blog">
+                    <i class="fa fa-plus"></i> Yangi Blog Yaratish
+                </a>
+            </div>
+
+            <!-- Edit Profile Section -->
+            <div class="profile-form-section">
+                <div class="profile-form-title">
+                    <i class="fa fa-user-circle"></i> Profil Ma'lumotlarini Tahrirlash
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <small class="text-danger">{{ field.errors }}</small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn-save">
+                        <i class="fa fa-save"></i> Saqlash
+                    </button>
+                </form>
+            </div>
+
+            <!-- User's Blogs Section -->
+            <div class="blogs-section">
+                <div class="blogs-title">
+                    <i class="fa fa-newspaper-o"></i> Mening Bloglarim
+                </div>
+
+                {% if user_blogs %}
+                    {% for blog in user_blogs %}
+                        <div class="blog-card">
+                            <div class="blog-title">{{ blog.title }}</div>
+                            <div class="blog-meta">
+                                <i class="fa fa-calendar"></i> 
+                                {{ blog.created_at|date:"d M Y, H:i" }}
+                            </div>
+                            <div class="blog-content">
+                                {% if blog.content|length > 150 %}
+                                    {{ blog.content|truncatewords:25 }}
+                                {% else %}
+                                    {{ blog.content }}
+                                {% endif %}
+                            </div>
+                            <div class="blog-footer">
+                                <span class="blog-category">{{ blog.category.name }}</span>
+                                <a href="{% url 'blog_detail' blog.id %}" class="btn-read-more">
+                                    To'liq o'qish <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-blogs">
+                        <div class="no-blogs-icon">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </div>
+                        <div class="no-blogs-text">Hali blog yaratilmagan</div>
+                        <a href="{% url 'create_blog' %}" class="btn-create-blog">
+                            <i class="fa fa-plus"></i> Birinchi Blogi Yaratish
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
